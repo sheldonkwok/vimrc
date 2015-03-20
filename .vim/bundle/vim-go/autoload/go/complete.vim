@@ -19,7 +19,12 @@ fu! s:gocodeCurrentBuffer()
     return file
 endf
 
-let s:vim_system = get(g:, 'gocomplete#system_function', 'system')
+
+if go#vimproc#has_vimproc()
+    let s:vim_system = get(g:, 'gocomplete#system_function', 'vimproc#system2')
+else
+    let s:vim_system = get(g:, 'gocomplete#system_function', 'system')
+endif
 
 fu! s:system(str, ...)
     return call(s:vim_system, [a:str] + a:000)
@@ -43,9 +48,9 @@ fu! s:gocodeCommand(cmd, preargs, args)
         let a:preargs[i] = s:gocodeShellescape(a:preargs[i])
     endfor
 
-    let bin_path = go#tool#BinPath(g:go_gocode_bin) 
-    if empty(bin_path) 
-        return 
+    let bin_path = go#tool#BinPath(g:go_gocode_bin)
+    if empty(bin_path)
+        return
     endif
 
     let result = s:system(printf('%s %s %s %s', bin_path, join(a:preargs), a:cmd, join(a:args)))
@@ -96,7 +101,7 @@ function! go#complete#GetInfo()
 
     " no candidates are found
     if len(out) == 1
-        return
+        return ""
     endif
 
     " only one candiate is found
@@ -119,14 +124,21 @@ function! go#complete#GetInfo()
     if len(filtered) == 1
         return filtered[0]
     endif
+
+    return ""
 endfunction
 
 function! go#complete#Info()
     let result = go#complete#GetInfo()
-    if len(result) > 0
+    if !empty(result)
         echo "vim-go: " | echohl Function | echon result | echohl None
     endif
-endfunction!
+endfunction
+
+function! s:trim_bracket(val)
+    let a:val.word = substitute(a:val.word, '[(){}\[\]]\+$', '', '')
+    return a:val
+endfunction
 
 fu! go#complete#Complete(findstart, base)
     "findstart = 1 when we need to get the text length
@@ -135,6 +147,10 @@ fu! go#complete#Complete(findstart, base)
         return col('.') - g:gocomplete_completions[0] - 1
         "findstart = 0 when we need to return the list of completions
     else
+        let s = getline(".")[col('.') - 1]
+        if s =~ '[(){}\{\}]'
+            return map(copy(g:gocomplete_completions[1]), 's:trim_bracket(v:val)')
+        endif
         return g:gocomplete_completions[1]
     endif
 endf

@@ -1,14 +1,46 @@
 set t_Co=256
-
 set background=dark
 colorscheme peachpuff
 
-call pathogen#infect()
+" call pathogen#infect()
+""" Start Vundle
+set nocompatible
+filetype off
+set rtp+=~/.vim/vundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+
+""" Plugins
+" Tools
+Plugin 'chriskempson/base16-vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'tomtom/tlib_vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'bling/vim-airline'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'bronson/vim-trailing-whitespace'
+" Plugin 'Valloric/YouCompleteMe'
+
+" Languages
+Plugin 'scrooloose/syntastic'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'mtscout6/vim-cjsx'
+Plugin 'fatih/vim-go'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'elzr/vim-json'
+
+call vundle#end()
+filetype plugin indent on
+""" End Vundle
+
+" vimrc settings
 au VimEnter * RainbowParenthesesToggle
 
 syntax enable
-filetype on
-filetype plugin indent on
 
 vnoremap <leader>p "_dP
 autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
@@ -76,3 +108,5 @@ noremap ts :Tab/:\zs /l0<CR>
 
 " Ctrl P
 
+" Go
+let g:go_fmt_command = "goimports"

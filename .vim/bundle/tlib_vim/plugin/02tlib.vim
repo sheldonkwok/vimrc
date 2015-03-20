@@ -1,20 +1,20 @@
-" tlib.vim -- Some utility functions
 " @Author:      Tom Link (micathom AT gmail com?subject=[vim])
-" @Website:     http://www.vim.org/account/profile.php?user_id=4037
-" @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 " @Created:     2007-04-10.
-" @Last Change: 2013-09-25.
-" @Revision:    749
+" @Last Change: 2014-07-03.
+" @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
+" @Revision:    756
+" @Website:     http://www.vim.org/account/profile.php?user_id=4037
 " GetLatestVimScripts: 1863 1 tlib.vim
+" tlib.vim -- Some utility functions
 
-if &cp || exists("loaded_tlib")
+if &cp || exists("g:loaded_tlib")
     finish
 endif
 if v:version < 700 "{{{2
     echoerr "tlib requires Vim >= 7"
     finish
 endif
-let loaded_tlib = 108
+let g:loaded_tlib = 113
 
 let s:save_cpo = &cpo
 set cpo&vim
