@@ -2,11 +2,10 @@ set t_Co=256
 set background=dark
 colorscheme peachpuff
 
-" call pathogen#infect()
 """ Start Vundle
 set nocompatible
 filetype off
-set rtp+=~/.vim/vundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
@@ -22,7 +21,8 @@ Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'bling/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bronson/vim-trailing-whitespace'
-" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe'
 
 " Languages
 Plugin 'scrooloose/syntastic'
@@ -32,10 +32,20 @@ Plugin 'mtscout6/vim-cjsx'
 Plugin 'fatih/vim-go'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'elzr/vim-json'
+Plugin 'yosssi/vim-ace'
+Plugin 'wavded/vim-stylus'
+Plugin 'cespare/vim-toml'
 
 call vundle#end()
 filetype plugin indent on
 """ End Vundle
+
+" file types
+au BufRead,BufNewFile *.ctmpl set filetype=gotpl
+au BufRead,BufNewFile *.json.ejs set filetype=json
+au BufReadPost *.toml.ejs set syntax=toml
+au BufRead,BufNewFile *.ctmpl set filetype=gotexttmpl
+au BufRead,BufNewFile *.dockerfile set filetype=dockerfile
 
 " vimrc settings
 au VimEnter * RainbowParenthesesToggle
